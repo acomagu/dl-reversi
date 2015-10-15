@@ -1,0 +1,86 @@
+.game-container {
+  position: relative;
+}
+.game {
+  display: flex;
+}
+table {
+  border-collapse: collapse;
+}
+td {
+  border: 1px solid #ddd;
+}
+.field-cell {
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+}
+.field-cell.white, .field-cell.black {
+  box-shadow: 1px 1px 3px gray;
+}
+.field-cell.black {
+  background: #FF4D1F;
+}
+.field-cell.white {
+  background: #408CD8;
+}
+.message-layer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+}
+.message-layer-transition-enter {
+  opacity: 0;
+}
+.message-layer-transition-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.message-layer-transition-leave {
+  opacity: 1;
+}
+.message-layer-transition-leave-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
+.hidden {
+  display: none;
+}
+.message-text-box {
+  margin: 0 auto;
+  height: 20vmin;
+  background: rgba(255, 255, 255, 0.8);
+  font-size: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center
+}
+.message-text-box.said-computer .message-text {
+  color: #FF4D1F;
+}
+.message-text-box.said-human .message-text {
+  color: #408CD8;
+}
+.mlface-box {
+  display: flex;
+  justify-content: center;
+  margin: 1em;
+}
+.mlface-box .mlface {
+  color: #FF4D1F;
+  font-size: 2em;
+}
+.gameField {
+  width: 98vmin;
+  height: 98vmin;
+}
+.gameField table {
+  width: 100%;
+  height: 100%;
+  max-height: 600px;
+  max-width: 600px;
+}
