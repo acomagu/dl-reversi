@@ -1,6 +1,5 @@
-/* @import url(http://fonts.googleapis.com/earlyaccess/notosansjapanese.css); */
 @import url(http://necolas.github.io/normalize.css/latest/normalize.css);
-body {}
+
 h1 {
   color: #ccc;
   font-weight: normal;
@@ -9,6 +8,9 @@ h1 {
   position: relative;
 }
 .game {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
 }
 table {
@@ -17,16 +19,19 @@ table {
 td {
   border: 1px solid #ddd;
 }
-td div {
+td>div {
   height: 100%;
   width: 100%;
+  position: relative;
 }
 .field-cell {
   border-radius: 50%;
   height: 100%;
   width: 100%;
   cursor: pointer;
-  transition: background-color 500ms ease-in-out;
+  -webkit-transition: background-color 500ms ease-in-out;
+          transition: background-color 500ms ease-in-out;
+  position: absolute;
 }
 .field-cell.white, .field-cell.black {
   box-shadow: 1px 1px 3px gray;
@@ -37,28 +42,52 @@ td div {
 .field-cell.white {
   background: #408CD8;
 }
+.cell-transition-enter {
+  opacity: 0;
+}
+.cell-transition-enter-active {
+  opacity: 1;
+  -webkit-transition: opacity 500ms linear;
+          transition: opacity 500ms linear;
+}
+.cell-transition-leave {
+  opacity: 1;
+}
+.cell-transition-leave-active {
+  opacity: 0;
+  -webkit-transition: opacity 500ms linear;
+          transition: opacity 500ms linear;
+}
 .message-layer {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 .message-layer-transition-enter {
   opacity: 0;
 }
 .message-layer-transition-enter-active {
   opacity: 1;
-  transition: opacity 500ms ease-in;
+  -webkit-transition: opacity 500ms ease-in;
+          transition: opacity 500ms ease-in;
 }
 .message-layer-transition-leave {
   opacity: 1;
 }
 .message-layer-transition-leave-active {
   opacity: 0;
-  transition: opacity 500ms ease-in;
+  -webkit-transition: opacity 500ms ease-in;
+          transition: opacity 500ms ease-in;
 }
 .hidden {
   display: none;
@@ -69,9 +98,18 @@ td div {
   height: 20vmin;
   background: rgba(255, 255, 255, 0.8);
   font-size: 2em;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: center
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 .message-text-box.said-computer .message-text {
   color: #FF4D1F;
@@ -80,8 +118,14 @@ td div {
   color: #408CD8;
 }
 .mlface-box {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   margin: 1em;
 }
 .mlface-box .mlface {

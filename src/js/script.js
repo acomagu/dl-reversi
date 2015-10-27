@@ -1,5 +1,11 @@
 'use strict';
 
+import fetch from 'isomorphic-fetch';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
+import jQuery from 'jquery';
+
 (function() {
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -46,20 +52,20 @@ let clone = function(object) {
   return jQuery.extend(true, (Array.isArray(object) ? [] : {}), object);
 };
 
-let CSSTransitionGroup = React.addons.CSSTransitionGroup;
-
 class Cell extends React.Component {
   handleCellClicked() {
     this.props.onCellClick(this.props.row, this.props.col);
   }
   render() {
     return (
-      <div className={[(
-        this.props.color == CELLCOLOR.EMPTY ? 'empty' :
-        this.props.color == CELLCOLOR.WHITE ? 'white' :
-        'black'
-      ), 'field-cell'].join(' ')} onClick={this.handleCellClicked.bind(this)} keys={this.props.color}>
-      </div>
+      <CSSTransitionGroup component="div" transitionName="cell-transition" transitionEnterTimeout={1000} transitionLeaveTimeout={1000}>
+        <div className={[(
+          this.props.color == CELLCOLOR.EMPTY ? 'empty' :
+          this.props.color == CELLCOLOR.WHITE ? 'white' :
+          'black'
+        ), 'field-cell'].join(' ')} onClick={this.handleCellClicked.bind(this)} key={this.props.color}>
+        </div>
+      </CSSTransitionGroup>
     );
   }
 }
@@ -348,17 +354,21 @@ class GameField extends React.Component {
       let cols = [];
       for(let j = 0; j < 8; ++j) {
         cols.push(
-          <td>
+          <td key={String(i).concat(j)}>
             <Cell row={i} col={j} color={this.state.fieldColors[i][j]} onCellClick={this.handleCellClicked.bind(this)} />
           </td>
         );
       }
-      rows.push(<tr>{cols}</tr>);
+      rows.push(<tr key={i}>{cols}</tr>);
       this.rows = rows;
     }
     return (
       <div className="gameField">
-        <table>{rows}</table>
+        <table>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
       </div>
     );
   }
@@ -387,7 +397,7 @@ class MessageWindow extends React.Component {
     let contentElement = (this.props.hidden ? null : messageLayerElement);
     return (
       <div>
-        <CSSTransitionGroup transitionName="message-layer-transition">
+        <CSSTransitionGroup transitionName="message-layer-transition" transitionEnterTimeout={1000} transitionLeaveTimeout={1000}>
           {contentElement}
         </CSSTransitionGroup>
       </div>
@@ -446,7 +456,7 @@ class GameContainer extends React.Component {
 }
 
 documentReadyPromise.then(() => {
-  React.render(
+  ReactDOM.render(
     (
       <GameContainer />
     ),
