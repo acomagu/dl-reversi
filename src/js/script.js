@@ -20,19 +20,19 @@ jQuery.noConflict();
 const APIKEY = 'yBRLWcVu3x21fniEh8IcS3hypeQ5BkT96rmFh3Wz';
 
 const CELLCOLOR = {
-  EMPTY: 0,
-  BLACK: 1,
-  WHITE: 2
+  EMPTY: Symbol(),
+  BLACK: Symbol(),
+  WHITE: Symbol()
 };
 
 const PLAYER = {
-  HUMAN: 0,
-  COMPUTER: 1
+  HUMAN: Symbol(),
+  COMPUTER: Symbol()
 };
 
 const GAMESTATE = {
-  PROGRESS: 0,
-  END: 1
+  PROGRESS: Symbol(),
+  END: Symbol()
 };
 
 const FACE = [
