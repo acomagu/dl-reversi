@@ -29360,19 +29360,19 @@ _jquery2['default'].noConflict();
 var APIKEY = 'yBRLWcVu3x21fniEh8IcS3hypeQ5BkT96rmFh3Wz';
 
 var CELLCOLOR = {
-  EMPTY: 0,
-  BLACK: 1,
-  WHITE: 2
+  EMPTY: Symbol(),
+  BLACK: Symbol(),
+  WHITE: Symbol()
 };
 
 var PLAYER = {
-  HUMAN: 0,
-  COMPUTER: 1
+  HUMAN: Symbol(),
+  COMPUTER: Symbol()
 };
 
 var GAMESTATE = {
-  PROGRESS: 0,
-  END: 1
+  PROGRESS: Symbol(),
+  END: Symbol()
 };
 
 var FACE = ['(*´∀｀*) .｡oO（', '(#ﾟДﾟ)', '(*ﾉД`*)･ﾟ･。', '(ﾉω･､)', '(･ω･｀*)', '(’ω’)', '(。>ω<。)', '((о(｡•ω•｡)о))', '(*　・´　∀・｀*)'];
