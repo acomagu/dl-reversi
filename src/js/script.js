@@ -145,7 +145,6 @@ class GameField extends React.Component {
   fetchMLResults(fieldColorss) {
     // TODO: solve security problem (Is CORS Control unsafe?)
     const APIURL = 'https://a1x87i27wk.execute-api.us-west-2.amazonaws.com/bridgeForAzureMLStage/';
-    let self = this;
     let postData = {
       Inputs: {
         input1: {
@@ -155,7 +154,7 @@ class GameField extends React.Component {
             )
           )().concat(['Result']),
           Values: fieldColorss.map(fieldColors =>
-            self.getAzureMLTypeFieldColors(fieldColors).concat(['0'])
+            this.getAzureMLTypeFieldColors(fieldColors).concat(['0'])
           )
         }
       },
@@ -207,15 +206,14 @@ class GameField extends React.Component {
     this.setState({
       fieldColors: changedFieldColors
     });
-    let self = this;
     // ( bad parts
     this.forceUpdate(() => {
-      let gameState = self.getGameState(self.state.fieldColors);
+      let gameState = this.getGameState(this.state.fieldColors);
       if(gameState == GAMESTATE.PROGRESS) {
-        self.changeTurnTo((player == PLAYER.COMPUTER ? PLAYER.HUMAN : PLAYER.COMPUTER));
+        this.changeTurnTo((player == PLAYER.COMPUTER ? PLAYER.HUMAN : PLAYER.COMPUTER));
       } else {
-        let winner = self.getWinner(self.state.fieldColors);
-        self.props.onAlert(`${(
+        let winner = this.getWinner(this.state.fieldColors);
+        this.props.onAlert(`${(
           winner == PLAYER.HUMAN ? 'You WIN!' :
           winner == PLAYER.COMPUTER ? 'I WIN!' :
           'DROW...'
@@ -223,8 +221,8 @@ class GameField extends React.Component {
           winner != null ? winner :
           PLAYER.COMPUTER
         ));
-        self.sendTrainData(winner);
-        self.setState({
+        this.sendTrainData(winner);
+        this.setState({
           gameState: gameState,
         });
       }
@@ -232,10 +230,9 @@ class GameField extends React.Component {
   }
   pass() {
     this.props.onAlert('PASS!', this.state.turn);
-    let self = this;
     // ( BAD PART
     this.forceUpdate(() => {
-      self.changeTurnTo((this.state.turn == PLAYER.COMPUTER ? PLAYER.HUMAN : PLAYER.COMPUTER));
+      this.changeTurnTo((this.state.turn == PLAYER.COMPUTER ? PLAYER.HUMAN : PLAYER.COMPUTER));
     });
   }
   handleCellClicked(y, x) {
@@ -309,10 +306,9 @@ class GameField extends React.Component {
       this.pass();
       return;
     }
-    let self = this;
     this.fetchMLResults(
       placeablePositions.map(position =>
-        self.getChangedFieldColors(self.state.fieldColors, position.y, position.x, placedColor)
+        this.getChangedFieldColors(this.state.fieldColors, position.y, position.x, placedColor)
       )
     ).then(results => {
       let computerWinProbabilities = results.map(value =>
@@ -322,8 +318,8 @@ class GameField extends React.Component {
       let maxComputerWinProbability = Math.max.apply(null, computerWinProbabilities);
       let computerPlacePosition = placeablePositions[computerWinProbabilities.indexOf(maxComputerWinProbability)];
       console.log(maxComputerWinProbability);
-      self.props.onUpdateMLConfidenceLevel(self.getConfidenceLevel(maxComputerWinProbability));
-      self.place(computerPlacePosition.y, computerPlacePosition.x);
+      this.props.onUpdateMLConfidenceLevel(this.getConfidenceLevel(maxComputerWinProbability));
+      this.place(computerPlacePosition.y, computerPlacePosition.x);
       // regist changes
     });
   }
@@ -422,8 +418,12 @@ class GameContainer extends React.Component {
       isMessageWindowHidden: true,
       alertMessage: '',
       alertMessageSaidPlayer: PLAYER.COMPUTER,
-      MLConfidenceLevel: 0
+      MLConfidenceLevel: 0,
+      haveStartedFirstGame: false
     };
+  }
+  componentDidMount() {
+    this.handleAlert('Let\'s play REVERSI!!!', PLAYER.COMPUTER);
   }
   handleAlert(message, saidPlayer) {
     this.setState({
@@ -432,9 +432,8 @@ class GameContainer extends React.Component {
       isMessageWindowHidden: false,
       MLConfidenceLevel: 0
     });
-    let self = this;
     setTimeout(() => {
-      self.setState({
+      this.setState({
         isMessageWindowHidden: true
       });
     }, 3000);

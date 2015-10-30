@@ -29524,9 +29524,10 @@ var GameField = (function (_React$Component2) {
   }, {
     key: 'fetchMLResults',
     value: function fetchMLResults(fieldColorss) {
+      var _this = this;
+
       // TODO: solve security problem (Is CORS Control unsafe?)
       var APIURL = 'https://a1x87i27wk.execute-api.us-west-2.amazonaws.com/bridgeForAzureMLStage/';
-      var self = this;
       var postData = {
         Inputs: {
           input1: {
@@ -29536,7 +29537,7 @@ var GameField = (function (_React$Component2) {
               });
             })().concat(['Result']),
             Values: fieldColorss.map(function (fieldColors) {
-              return self.getAzureMLTypeFieldColors(fieldColors).concat(['0']);
+              return _this.getAzureMLTypeFieldColors(fieldColors).concat(['0']);
             })
           }
         },
@@ -29587,23 +29588,24 @@ var GameField = (function (_React$Component2) {
   }, {
     key: 'place',
     value: function place(y, x) {
+      var _this2 = this;
+
       var player = this.state.turn;
       var placedColor = this.getPlacedColor(player);
       var changedFieldColors = this.getChangedFieldColors(this.state.fieldColors, y, x, placedColor);
       this.setState({
         fieldColors: changedFieldColors
       });
-      var self = this;
       // ( bad parts
       this.forceUpdate(function () {
-        var gameState = self.getGameState(self.state.fieldColors);
+        var gameState = _this2.getGameState(_this2.state.fieldColors);
         if (gameState == GAMESTATE.PROGRESS) {
-          self.changeTurnTo(player == PLAYER.COMPUTER ? PLAYER.HUMAN : PLAYER.COMPUTER);
+          _this2.changeTurnTo(player == PLAYER.COMPUTER ? PLAYER.HUMAN : PLAYER.COMPUTER);
         } else {
-          var winner = self.getWinner(self.state.fieldColors);
-          self.props.onAlert('' + (winner == PLAYER.HUMAN ? 'You WIN!' : winner == PLAYER.COMPUTER ? 'I WIN!' : 'DROW...'), winner != null ? winner : PLAYER.COMPUTER);
-          self.sendTrainData(winner);
-          self.setState({
+          var winner = _this2.getWinner(_this2.state.fieldColors);
+          _this2.props.onAlert('' + (winner == PLAYER.HUMAN ? 'You WIN!' : winner == PLAYER.COMPUTER ? 'I WIN!' : 'DROW...'), winner != null ? winner : PLAYER.COMPUTER);
+          _this2.sendTrainData(winner);
+          _this2.setState({
             gameState: gameState
           });
         }
@@ -29612,13 +29614,12 @@ var GameField = (function (_React$Component2) {
   }, {
     key: 'pass',
     value: function pass() {
-      var _this = this;
+      var _this3 = this;
 
       this.props.onAlert('PASS!', this.state.turn);
-      var self = this;
       // ( BAD PART
       this.forceUpdate(function () {
-        self.changeTurnTo(_this.state.turn == PLAYER.COMPUTER ? PLAYER.HUMAN : PLAYER.COMPUTER);
+        _this3.changeTurnTo(_this3.state.turn == PLAYER.COMPUTER ? PLAYER.HUMAN : PLAYER.COMPUTER);
       });
     }
   }, {
@@ -29693,6 +29694,8 @@ var GameField = (function (_React$Component2) {
   }, {
     key: 'handleturnChangeToComputer',
     value: function handleturnChangeToComputer() {
+      var _this4 = this;
+
       this.props.onUpdateMLConfidenceLevel(0);
       this.humanChoicedAzureMLTypeFieldColors.push(this.getAzureMLTypeFieldColors(this.state.fieldColors));
       var placedColor = this.getPlacedColor(PLAYER.COMPUTER);
@@ -29701,9 +29704,8 @@ var GameField = (function (_React$Component2) {
         this.pass();
         return;
       }
-      var self = this;
       this.fetchMLResults(placeablePositions.map(function (position) {
-        return self.getChangedFieldColors(self.state.fieldColors, position.y, position.x, placedColor);
+        return _this4.getChangedFieldColors(_this4.state.fieldColors, position.y, position.x, placedColor);
       })).then(function (results) {
         var computerWinProbabilities = results.map(function (value) {
           return Number(value.scoredProbability) * (value.scoredLabel == '1' ? 1 : -1);
@@ -29712,8 +29714,8 @@ var GameField = (function (_React$Component2) {
         var maxComputerWinProbability = Math.max.apply(null, computerWinProbabilities);
         var computerPlacePosition = placeablePositions[computerWinProbabilities.indexOf(maxComputerWinProbability)];
         console.log(maxComputerWinProbability);
-        self.props.onUpdateMLConfidenceLevel(self.getConfidenceLevel(maxComputerWinProbability));
-        self.place(computerPlacePosition.y, computerPlacePosition.x);
+        _this4.props.onUpdateMLConfidenceLevel(_this4.getConfidenceLevel(maxComputerWinProbability));
+        _this4.place(computerPlacePosition.y, computerPlacePosition.x);
         // regist changes
       });
     }
@@ -29868,22 +29870,29 @@ var GameContainer = (function (_React$Component5) {
       isMessageWindowHidden: true,
       alertMessage: '',
       alertMessageSaidPlayer: PLAYER.COMPUTER,
-      MLConfidenceLevel: 0
+      MLConfidenceLevel: 0,
+      haveStartedFirstGame: false
     };
   }
 
   _createClass(GameContainer, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.handleAlert('Let\'s play REVERSI!!!', PLAYER.COMPUTER);
+    }
+  }, {
     key: 'handleAlert',
     value: function handleAlert(message, saidPlayer) {
+      var _this5 = this;
+
       this.setState({
         alertMessage: message,
         alertMessageSaidPlayer: saidPlayer,
         isMessageWindowHidden: false,
         MLConfidenceLevel: 0
       });
-      var self = this;
       setTimeout(function () {
-        self.setState({
+        _this5.setState({
           isMessageWindowHidden: true
         });
       }, 3000);
