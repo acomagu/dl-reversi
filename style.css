@@ -249,6 +249,11 @@ td>div {
 .config-theme input[type=radio] {
   display: none;
 }
+.config-theme .config-theme-candidate-container span {
+  width: 15vmin;
+  height: 15vmin;
+  line-height: 15vmin;
+}
 .config-window-toggle-button {
   position: absolute;
   bottom: 0;

@@ -434,13 +434,13 @@ class ConfigWindow extends React.Component {
     return (
       <CSSTransitionGroup component="div" transitionName="config-window-transition" transitionEnterTimeout={1000} transitionLeaveTimeout={1000}>
         {(this.props.isHidden ? null : (
-          <div className="config-window-layer" keys="config-window">
+          <div className="config-window-layer" key="config-window">
             <div className="config-window">
               <RadioGroup name="ct" selectedValue={this.props.configs.theme} onChange={this.handleThemeChange.bind(this)}>
                 {((Radio) => (
                   <div className="config-theme">
                     {['default', 'legacy'].map((themeName) => (
-                      <div className={['config-theme-candidate-container', (this.props.configs.theme == themeName ? 'selected' : null)].join(' ')}>
+                      <div className={['config-theme-candidate-container', (this.props.configs.theme == themeName ? 'selected' : null)].join(' ')} key={themeName}>
                         <label><Radio value={themeName} />{themeName}</label>
                       </div>
                     ))}

@@ -29975,7 +29975,7 @@ var ConfigWindow = (function (_React$Component6) {
         { component: 'div', transitionName: 'config-window-transition', transitionEnterTimeout: 1000, transitionLeaveTimeout: 1000 },
         this.props.isHidden ? null : _react2['default'].createElement(
           'div',
-          { className: 'config-window-layer', keys: 'config-window' },
+          { className: 'config-window-layer', key: 'config-window' },
           _react2['default'].createElement(
             'div',
             { className: 'config-window' },
@@ -29989,7 +29989,7 @@ var ConfigWindow = (function (_React$Component6) {
                   ['default', 'legacy'].map(function (themeName) {
                     return _react2['default'].createElement(
                       'div',
-                      { className: ['config-theme-candidate-container', _this5.props.configs.theme == themeName ? 'selected' : null].join(' ') },
+                      { className: ['config-theme-candidate-container', _this5.props.configs.theme == themeName ? 'selected' : null].join(' '), key: themeName },
                       _react2['default'].createElement(
                         'label',
                         null,
