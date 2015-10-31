@@ -41,11 +41,17 @@ td>div {
 .field-cell.white, .field-cell.black {
   box-shadow: 1px 1px 3px gray;
 }
-.field-cell.black {
+.theme-default .field-cell.black {
   background: #FF4D1F;
 }
-.field-cell.white {
+.theme-default .field-cell.white {
   background: #408CD8;
+}
+.theme-legacy .field-cell.black {
+  background: #fff;
+}
+.theme-legacy .field-cell.white {
+  background: #222;
 }
 .cell-transition-enter {
   opacity: 0;
@@ -94,11 +100,17 @@ td>div {
   align-items: center;
   justify-content: center;
 }
-.message-text-box.said-computer .message-text {
+.theme-default .message-text-box.said-computer .message-text {
   color: #FF4D1F;
 }
-.message-text-box.said-human .message-text {
+.theme-legacy .message-text-box.said-computer .message-text {
+  color: #444;
+}
+.theme-default .message-text-box.said-human .message-text {
   color: #408CD8;
+}
+.theme-legacy .message-text-box.said-human .message-text {
+  color: #000;
 }
 .mlface-box {
   display: flex;
@@ -108,8 +120,13 @@ td>div {
   height: 15vmin;
 }
 .mlface-box .mlface {
-  color: #FF4D1F;
   font-size: 6vmin;
+}
+.theme-default .mlface-box .mlface {
+  color: #FF4D1F;
+}
+.theme-legacy .mlface-box .mlface {
+  color: #444;
 }
 .gameField {
   width: 100vmin;
@@ -120,4 +137,61 @@ td>div {
 .gameField table {
   width: 100%;
   height: 100%;
+}
+.config-window-layer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 10;
+}
+.config-window {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.5);
+}
+.config-window-transition-enter {
+  opacity: 0;
+}
+.config-window-transition-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.config-window-transition-leave {
+  opacity: 1;
+}
+.config-window-transition-leave-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
+.config-theme .config-theme-candidate-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 15vmin;
+  width: 15vmin;
+  background: #fff;
+  color: #222;
+  font-size: 4vmin;
+}
+.config-theme .config-theme-candidate-container.selected {
+  background: #222;
+  color: #fff;
+}
+.config-theme input[type=radio] {
+  display: none;
+}
+.config-window-toggle-button {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 4vmin;
+  height: 4vmin;
+  background: url(config-window-toggle-button-icon.svg);
+  background-size: 100%;
+  opacity: 0.5;
+  z-index: 15;
 }

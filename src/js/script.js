@@ -4,6 +4,7 @@ import fetch from 'isomorphic-fetch';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
+import RadioGroup from 'react-radio-group';
 import jQuery from 'jquery';
 
 (function() {
@@ -411,6 +412,49 @@ class MLFace extends React.Component {
   }
 }
 
+class ConfigWindowToggleButton extends React.Component {
+  handleClick() {
+    this.props.onClickButton();
+  }
+  render() {
+    return (
+      <div className="config-window-toggle-button" onClick={this.handleClick.bind(this)}></div>
+    );
+  }
+}
+
+class ConfigWindow extends React.Component {
+  handleThemeChange(value) {
+    this.props.onChangeConfig({
+      theme: value
+    });
+    return true;
+  }
+  render() {
+    return (
+      <CSSTransitionGroup component="div" transitionName="config-window-transition" transitionEnterTimeout={1000} transitionLeaveTimeout={1000}>
+        {(this.props.isHidden ? null : (
+          <div className="config-window-layer" keys="config-window">
+            <div className="config-window">
+              <RadioGroup name="ct" selectedValue={this.props.configs.theme} onChange={this.handleThemeChange.bind(this)}>
+                {((Radio) => (
+                  <div className="config-theme">
+                    {['default', 'legacy'].map((themeName) => (
+                      <div className={['config-theme-candidate-container', (this.props.configs.theme == themeName ? 'selected' : null)].join(' ')}>
+                        <label><Radio value={themeName} />{themeName}</label>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </RadioGroup>
+            </div>
+          </div>
+        ))}
+      </CSSTransitionGroup>
+    );
+  }
+}
+
 class GameContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -419,7 +463,11 @@ class GameContainer extends React.Component {
       alertMessage: '',
       alertMessageSaidPlayer: PLAYER.COMPUTER,
       MLConfidenceLevel: 0,
-      haveStartedFirstGame: false
+      haveStartedFirstGame: false,
+      configs: {
+        theme: 'default'
+      },
+      isConfigWindowHidden: true
     };
   }
   componentDidMount() {
@@ -443,9 +491,21 @@ class GameContainer extends React.Component {
       MLConfidenceLevel: MLConfidenceLevel
     });
   }
+  handleChangeConfig(configs) {
+    this.setState({
+      configs: configs
+    });
+  }
+  handleClickConfigWindowToggleButton() {
+    this.setState({
+      isConfigWindowHidden: !this.state.isConfigWindowHidden
+    });
+  }
   render() {
     return (
-      <div className="game-container">
+      <div className={['game-container', 'theme-'.concat(this.state.configs.theme)].join(' ')}>
+        <ConfigWindowToggleButton onClickButton={this.handleClickConfigWindowToggleButton.bind(this)} />
+        <ConfigWindow configs={this.state.configs} isHidden={this.state.isConfigWindowHidden} onChangeConfig={this.handleChangeConfig.bind(this)} />
         <MLFace MLConfidenceLevel={this.state.MLConfidenceLevel} />
         <GameField onAlert={this.handleAlert.bind(this)} onUpdateMLConfidenceLevel={this.handleUpdateMLConfidenceLevel.bind(this)} />
         <MessageWindow message={this.state.alertMessage} saidPlayer={this.state.alertMessageSaidPlayer} MLConfidenceLevel={this.state.MLConfidenceLevel} hidden={this.state.isMessageWindowHidden} />
