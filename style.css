@@ -38,6 +38,9 @@ table {
 td {
   border: 1px solid #ddd;
 }
+.theme-legacy td {
+  border: 1px solid #00542B;
+}
 td>div {
   height: 100%;
   width: 100%;
@@ -173,8 +176,14 @@ td>div {
 .gameField {
   width: 100vmin;
   height: 100vmin;
-  max-width: 83vh;
-  max-height: 83vh;
+  max-width: 81vh;
+  max-height: 81vh;
+  box-sizing: border-box;
+}
+.theme-legacy .gameField {
+  border: 1vmin solid #007B3F;
+  border-radius: 1vmin;
+  background: #009C50;
 }
 .gameField table {
   width: 100%;
@@ -258,8 +267,8 @@ td>div {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 4vmin;
-  height: 4vmin;
+  width: 10vmin;
+  height: 10vmin;
   background: url(config-window-toggle-button-icon.svg);
   background-size: 100%;
   opacity: 0.5;
