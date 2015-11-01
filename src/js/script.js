@@ -430,11 +430,14 @@ class ConfigWindow extends React.Component {
     });
     return true;
   }
+  handleConfigWindowLayerClick() {
+    this.props.onClickOutOfWindow();
+  }
   render() {
     return (
       <CSSTransitionGroup component="div" transitionName="config-window-transition" transitionEnterTimeout={1000} transitionLeaveTimeout={1000}>
         {(this.props.isHidden ? null : (
-          <div className="config-window-layer" key="config-window">
+          <div className="config-window-layer" onClick={this.handleConfigWindowLayerClick.bind(this)} key="config-window">
             <div className="config-window">
               <RadioGroup name="ct" selectedValue={this.props.configs.theme} onChange={this.handleThemeChange.bind(this)}>
                 {((Radio) => (
@@ -501,11 +504,16 @@ class GameContainer extends React.Component {
       isConfigWindowHidden: !this.state.isConfigWindowHidden
     });
   }
+  handleClickOutOfConfigWindow() {
+    this.setState({
+      isConfigWindowHidden: true
+    });
+  }
   render() {
     return (
       <div className={['game-container', 'theme-'.concat(this.state.configs.theme)].join(' ')}>
         <ConfigWindowToggleButton onClickButton={this.handleClickConfigWindowToggleButton.bind(this)} />
-        <ConfigWindow configs={this.state.configs} isHidden={this.state.isConfigWindowHidden} onChangeConfig={this.handleChangeConfig.bind(this)} />
+        <ConfigWindow configs={this.state.configs} isHidden={this.state.isConfigWindowHidden} onChangeConfig={this.handleChangeConfig.bind(this)} onClickOutOfWindow={this.handleClickOutOfConfigWindow.bind(this)} />
         <MLFace MLConfidenceLevel={this.state.MLConfidenceLevel} />
         <GameField onAlert={this.handleAlert.bind(this)} onUpdateMLConfidenceLevel={this.handleUpdateMLConfidenceLevel.bind(this)} />
         <MessageWindow message={this.state.alertMessage} saidPlayer={this.state.alertMessageSaidPlayer} MLConfidenceLevel={this.state.MLConfidenceLevel} hidden={this.state.isMessageWindowHidden} />
