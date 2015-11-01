@@ -10,6 +10,7 @@
   right: 0;
   bottom: 0;
   left: 0;
+  overflow: hidden;
 }
 /* h1 { */
 /*   color: #ccc; */
@@ -159,22 +160,29 @@ td>div {
 }
 .config-window {
   display: flex;
+  width: 15vmin;
   align-items: center;
   background: rgba(255, 255, 255, 0.5);
+  position: relative;
+  right: 0;
 }
 .config-window-transition-enter {
   opacity: 0;
+  right: -15vmin;
 }
 .config-window-transition-enter-active {
+  transition: opacity 500ms ease-out, right 500ms ease-out;
   opacity: 1;
-  transition: opacity 500ms ease-in;
+  right: 0;
 }
 .config-window-transition-leave {
+  right: 0;
   opacity: 1;
 }
 .config-window-transition-leave-active {
+  transition: opacity 500ms ease-out, right 500ms ease-out;
   opacity: 0;
-  transition: opacity 500ms ease-in;
+  right: -15vmin;
 }
 .config-theme .config-theme-candidate-container {
   display: flex;

@@ -29966,6 +29966,11 @@ var ConfigWindow = (function (_React$Component6) {
       return true;
     }
   }, {
+    key: 'handleConfigWindowLayerClick',
+    value: function handleConfigWindowLayerClick() {
+      this.props.onClickOutOfWindow();
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this5 = this;
@@ -29975,7 +29980,7 @@ var ConfigWindow = (function (_React$Component6) {
         { component: 'div', transitionName: 'config-window-transition', transitionEnterTimeout: 1000, transitionLeaveTimeout: 1000 },
         this.props.isHidden ? null : _react2['default'].createElement(
           'div',
-          { className: 'config-window-layer', key: 'config-window' },
+          { className: 'config-window-layer', onClick: this.handleConfigWindowLayerClick.bind(this), key: 'config-window' },
           _react2['default'].createElement(
             'div',
             { className: 'config-window' },
@@ -30074,13 +30079,20 @@ var GameContainer = (function (_React$Component7) {
       });
     }
   }, {
+    key: 'handleClickOutOfConfigWindow',
+    value: function handleClickOutOfConfigWindow() {
+      this.setState({
+        isConfigWindowHidden: true
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2['default'].createElement(
         'div',
         { className: ['game-container', 'theme-'.concat(this.state.configs.theme)].join(' ') },
         _react2['default'].createElement(ConfigWindowToggleButton, { onClickButton: this.handleClickConfigWindowToggleButton.bind(this) }),
-        _react2['default'].createElement(ConfigWindow, { configs: this.state.configs, isHidden: this.state.isConfigWindowHidden, onChangeConfig: this.handleChangeConfig.bind(this) }),
+        _react2['default'].createElement(ConfigWindow, { configs: this.state.configs, isHidden: this.state.isConfigWindowHidden, onChangeConfig: this.handleChangeConfig.bind(this), onClickOutOfWindow: this.handleClickOutOfConfigWindow.bind(this) }),
         _react2['default'].createElement(MLFace, { MLConfidenceLevel: this.state.MLConfidenceLevel }),
         _react2['default'].createElement(GameField, { onAlert: this.handleAlert.bind(this), onUpdateMLConfidenceLevel: this.handleUpdateMLConfidenceLevel.bind(this) }),
         _react2['default'].createElement(MessageWindow, { message: this.state.alertMessage, saidPlayer: this.state.alertMessageSaidPlayer, MLConfidenceLevel: this.state.MLConfidenceLevel, hidden: this.state.isMessageWindowHidden })
