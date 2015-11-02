@@ -92,7 +92,7 @@ td>div {
 }
 .message-layer-transition-leave-active {
   opacity: 0;
-  transition: opacity 500ms ease-in;
+  transition: opacity 500ms ease-out;
 }
 .message-text-box {
   margin: 0 auto;

@@ -474,6 +474,13 @@ class GameContainer extends React.Component {
     };
   }
   componentDidMount() {
+    if(window.localStorage.configs != undefined) {
+      this.setState({
+        configs: JSON.parse(window.localStorage.configs)
+      });
+    } else {
+      window.localStorage.configs = JSON.stringify(this.state.configs);
+    }
     this.handleAlert('Let\'s play REVERSI!!!', PLAYER.COMPUTER);
   }
   handleAlert(message, saidPlayer) {
@@ -498,6 +505,7 @@ class GameContainer extends React.Component {
     this.setState({
       configs: configs
     });
+    window.localStorage.configs = JSON.stringify(configs);
   }
   handleClickConfigWindowToggleButton() {
     this.setState({
