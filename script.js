@@ -30038,6 +30038,13 @@ var GameContainer = (function (_React$Component7) {
   _createClass(GameContainer, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      if (window.localStorage.configs != undefined) {
+        this.setState({
+          configs: JSON.parse(window.localStorage.configs)
+        });
+      } else {
+        window.localStorage.configs = JSON.stringify(this.state.configs);
+      }
       this.handleAlert('Let\'s play REVERSI!!!', PLAYER.COMPUTER);
     }
   }, {
@@ -30070,6 +30077,7 @@ var GameContainer = (function (_React$Component7) {
       this.setState({
         configs: configs
       });
+      window.localStorage.configs = JSON.stringify(configs);
     }
   }, {
     key: 'handleClickConfigWindowToggleButton',
