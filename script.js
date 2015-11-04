@@ -29581,7 +29581,7 @@ var GameField = (function (_React$Component2) {
       var flatArray = [];
       fieldColors.forEach(function (row) {
         flatArray = flatArray.concat(row.map(function (num) {
-          return num.toString();
+          return (num == 0 ? 0 : num == 1 ? 1 : -1).toString();
         }));
       });
       return flatArray;
@@ -29792,7 +29792,7 @@ var GameField = (function (_React$Component2) {
         return value.concat([winner == PLAYER.COMPUTER ? '1' : '0']);
       }).concat(this.humanChoicedAzureMLTypeFieldColors.map(function (value) {
         return value.map(function (n) {
-          return n == '1' ? '2' : n == '2' ? '1' : '0';
+          return n == '1' ? '-1' : n == '-1' ? '1' : '0';
         }).concat([winner == PLAYER.HUMAN ? '1' : '0']);
       }));
       (0, _isomorphicFetch2['default'])(APIURL, {
