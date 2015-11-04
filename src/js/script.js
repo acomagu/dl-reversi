@@ -138,7 +138,7 @@ class GameField extends React.Component {
     let flatArray = [];
     fieldColors.forEach(row => {
       flatArray = flatArray.concat(
-        row.map(num => num.toString())
+        row.map(num => (num == 0 ? 0 : num == 1 ? 1 : -1).toString())
       );
     });
     return flatArray;
@@ -331,7 +331,7 @@ class GameField extends React.Component {
     ).concat(
       this.humanChoicedAzureMLTypeFieldColors.map(value =>
         value.map(n =>
-          (n == '1' ? '2' : n == '2' ? '1' : '0')
+          (n == '1' ? '-1' : n == '-1' ? '1' : '0')
         ).concat([(winner == PLAYER.HUMAN ? '1' : '0')])
       )
     );
